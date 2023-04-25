@@ -28,7 +28,7 @@ public class OrderController {
     public String processOrder(@Valid TacoOrder order, Errors errors,
                                SessionStatus sessionStatus) {
         if (errors.hasErrors()) {
-            return "orderForm";
+            return "orderForm.html";
         }
         log.info("Order submitted: {}", order);
         sessionStatus.setComplete();
