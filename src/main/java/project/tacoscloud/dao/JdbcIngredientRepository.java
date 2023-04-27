@@ -38,7 +38,13 @@ public class JdbcIngredientRepository implements IngredientRepository {
                 Optional.empty() :
                 Optional.of(results.get(0));
     }
-
+    private Ingredient mapRowToIngredient(ResultSet row, int rowNum)
+            throws SQLException{
+        return new Ingredient(
+                row.getString("id"),
+                row.getString("name"),
+                Ingredient.Type.valueOf(row.getString("type")));
+    }
     @Override
     public Ingredient save(Ingredient ingredient) {
         jdbcTemplate.update(
@@ -49,11 +55,5 @@ public class JdbcIngredientRepository implements IngredientRepository {
         return ingredient;
     }
 
-    private Ingredient mapRowToIngredient(ResultSet row, int rowNum)
-        throws SQLException{
-        return new Ingredient(
-                row.getString("id"),
-                row.getString("name"),
-                Ingredient.Type.valueOf(row.getString("type")));
-    }
+
 }

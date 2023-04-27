@@ -13,6 +13,7 @@ import project.tacoscloud.dao.IngredientRepository;
 
 import javax.validation.Valid;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @Controller
@@ -52,13 +53,18 @@ public class DesignTacoController {
     public String showDesignForm() {
         return "design.html";
     }
+//    private Iterable<Ingredient> filterByType(
+//            Iterable<Ingredient> ingredients, Ingredient.Type type) {
+//        return ingredients.stream()
+//                .filter(x -> x.getType().equals(type))
+//                .collect(Collectors.toList());
+//        }
     private Iterable<Ingredient> filterByType(
-            Iterable<Ingredient> ingredients, Ingredient.Type type) {
-        return ingredients
-                .stream()
-                .filter(x -> x.getType().equals(type))
-                .collect(Collectors.toList());
-        }
+                Iterable<Ingredient> ingredients, Ingredient.Type type) {
+            return StreamSupport.stream(ingredients.spliterator(), false)
+                    .filter(x -> x.getType().equals(type))
+                    .collect(Collectors.toList());
+            }
     @PostMapping
     public String processTaco(
             @Valid Taco taco, Errors errors,
